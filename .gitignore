@@ -1,0 +1,28 @@
+# History files (contain sensitive data)
+*_history
+*.backup
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Sensitive files with tokens/credentials
+.npmrc
+**/*_token
+**/*_key
+**/secrets.env
+# .ssh/id_*  # SSH private keys
+
+# Local customizations that shouldn't be synced
+*.local
+config_local
+.ssh/config_local
+
+# Environment variable files
+.env
+.env.*
+*.env
+.env.*.local
