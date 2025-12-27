@@ -1,0 +1,88 @@
+[core]
+  editor = code --wait
+	excludesfile = /Users/nicktaylor/.gitignore_global
+	pager = delta
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background colo (e.g. the default macOS terminal)
+[diff]
+  tool = vscode
+  colorMoved = default
+[interactive]
+	diffFilter = delta --color-only
+# [difftool "vscode"]
+#   cmd = code --wait --diff $LOCAL $REMOTE
+# [merge]
+#   tool = vscode
+# 	conflictstyle = diff3
+# [mergetool "vscode"]
+#   cmd = code --wait $MERGED
+[commit]
+	gpgsign = true
+[user]
+	name = Nick Taylor
+	email = nick@nickyt.co
+	signingkey = ~/.ssh/id_ed25519.pub
+	# These will be set by the install script
+	# or manually with: git config --global user.name "Your Name"
+	#                   git config --global user.email "your@email.com"
+[gpg]
+	format = ssh
+[alias]
+	a = add .
+	b = branch
+	bi = bisect
+	ci = commit -m
+	co = checkout
+	colast = checkout -
+	db = branch -D
+	laf = fsck
+	pf = push --force-with-lease
+	psu = push --set-upstream
+	ra = rebase --abort
+	rc = rebase --continue
+	remotes = remote -v
+	renb = branch -m
+	s = status -s
+	stashes = stash list
+	unstash = stash pop
+	vc = clean -dfx
+	mend = commit --amend
+	last = log -1 HEAD
+	lc = diff HEAD^ HEAD
+	rhh = reset --hard HEAD
+	rh = reset
+	sfc = diff-tree --no-commit-id --name-only -r
+	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+	chore = "!chore() { git commit -m \"chore: $1\"; }; chore"
+	fix = "!fix() { git commit -m \"fix: $1\"; }; fix"
+	feat = "!feature() { git commit -m \"feat: $1\"; }; feature"
+	test = "!test() { git commit -m \"test: $1\"; }; test"
+	docs = "!docs() { git commit -m \"docs: $1\"; }; docs"
+	conf = config --global --edit
+	trigger = ! git commit --allow-empty -m 'chore: trigger build'
+	laf = fsck
+	ec = config  --global --edit
+	sn = "!f() { git stash push -m \"$1\"; }; f"
+	un = "!f() { git stash apply stash^{/$1}; }; f"
+	featb = "!featurebreak() { git commit -m \"feat!: $1\"; }; featurebreak"
+
+[init]
+	defaultBranch = main
+[push]
+	default = current
+[pull]
+	ff = only
+
+# Include work-specific git config (not in repo)
+# [includeIf "gitdir:~/dev/work/"]
+#     path = ~/dev/work/.gitconfig
+
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[tag]
+	gpgSign = true
