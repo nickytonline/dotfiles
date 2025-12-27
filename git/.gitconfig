@@ -22,7 +22,7 @@
 [user]
 	name = Nick Taylor
 	email = nick@nickyt.co
-	signingkey = ~/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/gh-signing-key.pub
 	# These will be set by the install script
 	# or manually with: git config --global user.name "Your Name"
 	#                   git config --global user.email "your@email.com"
