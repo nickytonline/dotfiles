@@ -5,6 +5,7 @@ export PATH="$HOME/.local/bin:$HOME/go/bin:$HOME/.deno/bin:$HOME/.console-ninja/
 # Set your work GitHub org (e.g., "mycompany") for nb/db branch functions
 # Leave empty to use simple branch names without org prefix
 export WORK_ORG=""
+export GH_USER=""
 
 # Zsh history filtering - runs before adding commands to history
 zshaddhistory() {
@@ -88,7 +89,7 @@ nb() {
   if [ -n "$WORK_ORG" ]; then
     # Check if current repo is the work org, if so use username prefix
     if git remote -v | grep -q "git@github.com:$WORK_ORG/"; then
-      git checkout -b "$(git config user.name | tr '[:upper:]' '[:lower:]' | tr ' ' '')/$branch"
+      git checkout -b "$GH_USER/$branch"
     else
       git checkout -b "$branch"
     fi
