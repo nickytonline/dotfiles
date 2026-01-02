@@ -41,6 +41,10 @@ create_symlink() {
         fi
     fi
 
+    # Remove extended attributes from source file (e.g., com.apple.provenance)
+    # These can prevent files from being readable through symlinks
+    xattr -c "$source" 2>/dev/null || true
+
     ln -s "$source" "$target"
     echo -e "${GREEN}  Linked: $target -> $source${NC}"
 }
@@ -70,7 +74,9 @@ echo -e "\n${GREEN}Linking SSH configuration...${NC}"
 mkdir -p "$HOME/.ssh"
 if [ -f "$DOTFILES_DIR/ssh/config" ]; then
     create_symlink "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
-    chmod 600 "$HOME/.ssh/config"
+    if [ -L "$HOME/.ssh/config" ]; then
+        chmod 600 "$HOME/.ssh/config"
+    fi
 fi
 
 # Link .npmrc
