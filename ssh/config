@@ -6,9 +6,12 @@ Include ~/.orbstack/ssh/config
 # Include private/work-specific SSH configs (not in repo)
 Include ~/.ssh/config_local
 
-Host github.com
+Host *
   AddKeysToAgent yes
   UseKeychain yes
+  IgnoreUnknown UseKeychain
+
+Host github.com
   IdentityFile ~/.ssh/id_ed25519
 
 Host minime
