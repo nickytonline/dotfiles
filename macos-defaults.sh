@@ -220,6 +220,26 @@ defaults write com.apple.TextEdit PlainTextEncoding -int 4
 defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 
 ###############################################################################
+# Energy & Sleep Settings                                                     #
+###############################################################################
+
+# Set display sleep to 10 minutes
+sudo pmset displaysleep 10
+
+# Set computer sleep to 15 minutes (standard setting)
+sudo pmset sleep 15
+
+# Disable hard disk sleep to prevent external drives from blocking system sleep
+# Set to 0 to keep drives awake and avoid ExternalMedia sleep prevention
+sudo pmset disksleep 0
+
+# Enable Power Nap (allows Time Machine backups and iCloud sync during sleep)
+sudo pmset powernap 1
+
+# Wake for network access (useful for remote access)
+sudo pmset womp 1
+
+###############################################################################
 # Menu Bar Clock                                                              #
 ###############################################################################
 
