@@ -140,6 +140,7 @@ if command -v fnm &> /dev/null; then
         # Install and use LTS Node.js
         fnm install --lts
         fnm use lts-latest
+        fnm default lts-latest
         eval "$(fnm env --shell bash)"
 
         # Install OpenAI Codex CLI
