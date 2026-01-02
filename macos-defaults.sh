@@ -240,6 +240,19 @@ sudo pmset powernap 1
 sudo pmset womp 1
 
 ###############################################################################
+# Screen Saver & Lock Screen                                                  #
+###############################################################################
+
+# Start screen saver after 2 minutes of inactivity
+defaults -currentHost write com.apple.screensaver idleTime -int 120
+
+# Require password when screen saver starts
+defaults write com.apple.screensaver askForPassword -int 1
+
+# Require password immediately (no delay)
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+###############################################################################
 # Menu Bar Clock                                                              #
 ###############################################################################
 
