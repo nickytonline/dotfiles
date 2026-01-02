@@ -79,6 +79,35 @@ if [ -f "$DOTFILES_DIR/ssh/config" ]; then
     fi
 fi
 
+# Setup SSH signing key for git commits
+echo -e "\n${GREEN}Setting up SSH signing key...${NC}"
+if [ ! -f "$HOME/.ssh/gh-signing-key" ]; then
+    echo -e "${YELLOW}SSH signing key not found at ~/.ssh/gh-signing-key${NC}"
+    echo -e "${YELLOW}Please create it with:${NC}"
+    echo -e "  ${GREEN}ssh-keygen -t ed25519 -C \"your_email@example.com\" -f ~/.ssh/gh-signing-key${NC}"
+    echo -e "${YELLOW}Then add the public key to GitHub: https://github.com/settings/keys${NC}"
+    echo -e "${YELLOW}Press any key when you've created the key...${NC}"
+    read -n 1 -s -r
+fi
+
+# Add SSH keys to macOS Keychain
+if [ -f "$HOME/.ssh/gh-signing-key" ]; then
+    echo -e "${GREEN}Adding gh-signing-key to macOS Keychain...${NC}"
+    ssh-add --apple-use-keychain "$HOME/.ssh/gh-signing-key" 2>/dev/null && \
+        echo -e "${GREEN}  Successfully added to Keychain${NC}" || \
+        echo -e "${YELLOW}  Already in Keychain or not passphrase-protected${NC}"
+else
+    echo -e "${RED}gh-signing-key still not found. Skipping Keychain setup.${NC}"
+fi
+
+# Add main SSH key if it exists
+if [ -f "$HOME/.ssh/id_ed25519" ]; then
+    echo -e "${GREEN}Adding id_ed25519 to macOS Keychain...${NC}"
+    ssh-add --apple-use-keychain "$HOME/.ssh/id_ed25519" 2>/dev/null && \
+        echo -e "${GREEN}  Successfully added to Keychain${NC}" || \
+        echo -e "${YELLOW}  Already in Keychain or not passphrase-protected${NC}"
+fi
+
 # Link .npmrc
 echo -e "\n${GREEN}Linking npm configuration...${NC}"
 if [ -f "$DOTFILES_DIR/.npmrc" ]; then
