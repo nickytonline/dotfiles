@@ -2,11 +2,6 @@ export PNPM_HOME="$HOME/Library/pnpm"
 export LIBRARY_PATH=/opt/homebrew/lib:$LIBRARY_PATH
 export PATH="$HOME/.local/bin:$HOME/go/bin:$HOME/.deno/bin:$HOME/.console-ninja/.bin:$JAVA_HOME/bin:$BUN_INSTALL/bin:$HOME/.air:/opt/homebrew/bin/go/bin:$HOME/.codeium/windsurf/bin:/opt/homebrew/opt/postgresql@14/bin:$HOME/.antigravity/antigravity/bin:$PNPM_HOME:$PATH"
 
-# Set your work GitHub org (e.g., "mycompany") for nb/db branch functions
-# Leave empty to use simple branch names without org prefix
-export WORK_ORG=""
-export GH_USER=""
-
 # Zsh history filtering - runs before adding commands to history
 zshaddhistory() {
   local line="${1%%$'\n'}"
@@ -84,20 +79,9 @@ nb() {
     return 1
   fi
 
+  gh_user="$(gh api user --jq .login)"
   branch="$1"
-
-  if [ -n "$WORK_ORG" ]; then
-    # Check if current repo is the work org, if so use username prefix
-    if git remote -v | grep -q "git@github.com:$WORK_ORG/"; then
-      git checkout -b "$GH_USER/$branch"
-    else
-      git checkout -b "$branch"
-    fi
-  else
-    echo "ℹ️  WORK_ORG not set. Creating branch without org prefix."
-    echo "   Set WORK_ORG in your ~/.zshrc if you want org-specific branch names."
-    git checkout -b "$branch"
-  fi
+  git checkout -b "$gh_user/$branch"
 }
 
 db() {
