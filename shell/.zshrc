@@ -84,28 +84,6 @@ nb() {
   git checkout -b "$gh_user/$branch"
 }
 
-db() {
-  if [ -z "$1" ]; then
-    echo "Usage: db <branch-name>"
-    return 1
-  fi
-
-  branch="$1"
-
-  if [ -n "$WORK_ORG" ]; then
-    # Check if current repo is the work org, if so use username prefix
-    if git remote -v | grep -q "git@github.com:$WORK_ORG/"; then
-      git branch -D "$(git config user.name | tr '[:upper:]' '[:lower:]' | tr ' ' '')/$branch"
-    else
-      git branch -D "$branch"
-    fi
-  else
-    echo "ℹ️  WORK_ORG not set. Deleting branch without org prefix."
-    echo "   Set WORK_ORG in your ~/.zshrc if you want org-specific branch names."
-    git branch -D "$branch"
-  fi
-}
-
 glog() {
   git log --oneline --decorate --graph --color | less -R
 }
