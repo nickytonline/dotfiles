@@ -118,7 +118,7 @@ defaults write com.apple.dock tilesize -int 48
 
 # Position Dock on screen (your current: right)
 # Options: "left", "bottom", "right"
-defaults write com.apple.dock orientation -string "right"
+defaults write com.apple.dock orientation -string "left"
 
 # Minimize windows into their application's icon
 defaults write com.apple.dock minimize-to-application -bool true
