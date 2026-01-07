@@ -68,6 +68,14 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
+# Set trackpad scrolling speed (lower = slower, range: 0-3, default: ~0.6875)
+# Setting to ~0.5 for about a third slower than default
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 0.6875
+
+# Set mouse scrolling speed (lower = slower, range: 0-3, default: ~0.6875)
+# Setting to ~0.5 for about a third slower than default
+defaults write NSGlobalDomain com.apple.scrollwheel.scaling -float 0.6875
+
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
