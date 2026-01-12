@@ -62,6 +62,7 @@ alias wd='windsurf -r'
 alias rimraf='rm -rf'
 alias mermaid='mmdc'
 alias sniffly='uvx sniffly init'
+alias cat='bat'
 
 # Docker aliases
 alias du='docker compose up -d'
