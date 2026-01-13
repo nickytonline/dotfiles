@@ -103,6 +103,14 @@ cpr() {
   echo "Switched to new worktree for PR #$pr: $branch"
 }
 
+cb() {
+  if [ -z "$1" ]; then
+    echo "Usage: cb <file> - Copy file contents to clipboard" >&2
+    return 1
+  fi
+  cat "$@" | pbcopy
+}
+
 export GPG_TTY=$(tty)
 export STARSHIP_CONFIG=~/.config/starship.toml
 
