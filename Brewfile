@@ -197,6 +197,7 @@ mas "Developer", id: 640199958
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Swift Playground", id: 1496833156
+mas "Telegram", id: 747648890
 mas "Xcode", id: 497799835
 vscode "alefragnani.bookmarks"
 vscode "alefragnani.project-manager"
