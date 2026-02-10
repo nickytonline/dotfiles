@@ -8,6 +8,7 @@
 [diff]
   tool = vscode
   colorMoved = default
+	algorithm = histogram
 [interactive]
 	diffFilter = delta --color-only
 # [difftool "vscode"]
@@ -71,8 +72,10 @@
 	defaultBranch = main
 [push]
 	default = current
+	autoSetupRemote = true
 [pull]
 	ff = only
+	rebase = true
 
 # Include work-specific git config (not in repo)
 # [includeIf "gitdir:~/dev/work/"]
@@ -86,3 +89,7 @@
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [tag]
 	gpgSign = true
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
