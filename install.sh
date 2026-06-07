@@ -160,28 +160,9 @@ if [ -f "$DOTFILES_DIR/Brewfile" ]; then
     fi
 fi
 
-# Install Node.js LTS via fnm and OpenAI Codex CLI
-if command -v fnm &> /dev/null; then
-    echo -e "\n${GREEN}Installing Node.js LTS via fnm...${NC}"
-    read -p "Install Node.js LTS and OpenAI Codex CLI? (y/N) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        # Install and use LTS Node.js
-        fnm install --lts
-        fnm use lts-latest
-        fnm default lts-latest
-        eval "$(fnm env --shell bash)"
-
-        # Install OpenAI Codex CLI
-        echo -e "${GREEN}Installing @openai/codex...${NC}"
-        npm install -g @openai/codex
-        echo -e "${GREEN}Node.js LTS and OpenAI Codex CLI installed successfully!${NC}"
-    else
-        echo -e "${YELLOW}Skipped Node.js and Codex CLI installation${NC}"
-    fi
-else
-    echo -e "${YELLOW}fnm not found. Install Homebrew packages first.${NC}"
-fi
+# Setup node and go runtime versions
+mise --version
+mise use --global node@24 go@1
 
 # Apply macOS system preferences
 if [ -f "$DOTFILES_DIR/macos-defaults.sh" ]; then
