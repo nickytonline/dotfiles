@@ -1,16 +1,53 @@
 export PNPM_HOME="$HOME/Library/pnpm"
 export LIBRARY_PATH=/opt/homebrew/lib:$LIBRARY_PATH
-export PATH="$HOME/.local/bin:$HOME/go/bin:$HOME/.deno/bin:$HOME/.console-ninja/.bin:$JAVA_HOME/bin:$BUN_INSTALL/bin:$HOME/.air:/opt/homebrew/bin/go/bin:$HOME/.codeium/windsurf/bin:/opt/homebrew/opt/postgresql@14/bin:$HOME/.antigravity/antigravity/bin:$PNPM_HOME:$PATH"
+export NEMOCLAW_ACCEPT_THIRD_PARTY_SOFTWARE=1
+
+# PATH as zsh array (U = unique, prevents duplicates)
+typeset -aU path
+path=(
+  $HOME/.local/bin
+  $HOME/go/bin
+  $HOME/.deno/bin
+  $HOME/.console-ninja/.bin
+  $JAVA_HOME/bin
+  $BUN_INSTALL/bin
+  $HOME/.air
+  /opt/homebrew/bin/go/bin
+  $HOME/.codeium/windsurf/bin
+  /opt/homebrew/opt/postgresql@14/bin
+  $HOME/.antigravity/antigravity/bin
+  $PNPM_HOME
+  $HOME/.iximiuz/labctl/bin
+  /opt/homebrew/bin
+  /usr/local/bin
+  /usr/bin
+  /bin
+  $path
+)
+export PATH
 
 # Zsh history filtering - runs before adding commands to history
 zshaddhistory() {
   local line="${1%%$'\n'}"
-  [[ "$line" =~ "^(ls|cd|pwd|exit|security|cd \.\.)$" ]] && return 1
+  # skip if leading whitespace or matches noise pattern
+  [[ "$line" =~ "^[[:space:]]" ]] && return 1
+  [[ "$line" =~ "^(ls|cd|pwd|exit|clear|history|cd \.\.|security)$" ]] && return 1
   return 0
 }
 
 setopt autocd
+setopt auto_pushd
+setopt pushd_ignore_dups
 setopt share_history
+setopt append_history
+setopt extended_history
+setopt hist_ignore_dups
+setopt hist_expire_dups_first
+setopt hist_reduce_blanks
+setopt extended_glob
+setopt interactive_comments
+setopt no_beep
+setopt nocaseglob
 
 # History configuration
 HISTFILE=~/.zsh_history
@@ -50,7 +87,6 @@ alias nr='npm run'
 alias ni='npm i'
 alias '$'=''
 alias dt='deno task'
-alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 alias dotfiles='/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias g='git'
 alias d='deno'
@@ -63,15 +99,17 @@ alias rimraf='rm -rf'
 alias mermaid='mmdc'
 alias sniffly='uvx sniffly init'
 alias ls='eza'
+alias reset='stty sane'
 
 # Docker aliases
 alias du='docker compose up -d'
 alias dd='docker compose down'
-
-alias gt='@g'
+alias mini='ssh nickytonline@jump@ssh.maisonlab.dev -p 2200'
+alias tiny='ssh nickytonline@tiny@ssh.maisonlab.dev -p 2200'
 
 rmmerged() {
-  git branch --merged | grep -v "*" | grep -v "master" | xargs -n 1 git branch -d && git remote prune origin
+  git branch --merged | grep -v "^\\*\\|master\\|main" | xargs -r -n 1 git branch -d
+  git remote prune origin
 }
 
 nb() {
@@ -87,10 +125,6 @@ nb() {
 
 glog() {
   git log --oneline --decorate --graph --color | less -R
-}
-
-openai_key() {
-  export OPENAI_API_KEY=$(security find-generic-password -a $USER -s openai_api_key -w)
 }
 
 cpr() {
@@ -111,21 +145,22 @@ cb() {
   cat "$@" | pbcopy
 }
 
-export GPG_TTY=$(tty)
+export GPG_TTY=$(tty 2>/dev/null)
 export STARSHIP_CONFIG=~/.config/starship.toml
+export LESS="-R -F -X -i"
 
 
-# Pyenv lazy loading - defers initialization until first use
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-pyenv() {
-  unset -f pyenv
-  eval "$(command pyenv init -)"
-  pyenv "$@"
-}
+# Initialize completion system (rebuild cache only once per day)
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 
-# Initialize completion system
-autoload -Uz compinit && compinit -C
+# Completion scripts (must come after compinit)
+source <(labctl completion zsh)
+eval "$(fzf --zsh)"
 
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -141,9 +176,13 @@ starship_init() {
   precmd_functions=(${precmd_functions:#starship_init})
 }
 precmd_functions+=(starship_init)
-PROMPT='$(goose term info) %~ $ '
 
+# Other shell integrations
 eval "$(atuin init zsh --disable-up-arrow)"
-eval "$(fnm env --use-on-cd --shell zsh)"
 eval "$(zoxide init zsh)"
+eval "$(mise activate zsh)"
 eval "$(goose term init zsh)"
+
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
