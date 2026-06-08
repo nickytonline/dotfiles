@@ -55,7 +55,6 @@ brew "pkgconf"
 brew "pnpm"
 brew "podman"
 brew "poppler"
-brew "pyenv"
 brew "redis", restart_service: :changed
 brew "speedtest-cli"
 brew "starship"
