@@ -48,11 +48,16 @@ setopt extended_glob
 setopt interactive_comments
 setopt no_beep
 setopt nocaseglob
+setopt hist_verify
+setopt chase_links
+WORDCHARS=${WORDCHARS//\/}
 
 # History configuration
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+REPORTTIME=3
+TIMEFMT="%U user %S system %P cpu %*E total"
 
 # Homebrew caching - regenerates cache only when Homebrew updates
 if [[ ! -f ~/.zsh_brew_cache || ~/.zsh_brew_cache -ot /opt/homebrew/bin/brew ]]; then
@@ -100,10 +105,12 @@ alias mermaid='mmdc'
 alias sniffly='uvx sniffly init'
 alias ls='eza'
 alias reset='stty sane'
+alias dd='devin-desktop'
+alias sudo='sudo '
 
 # Docker aliases
-alias du='docker compose up -d'
-alias dd='docker compose down'
+alias dcu='docker compose up -d'
+alias dcd='docker compose down'
 alias mini='ssh nickytonline@jump@ssh.maisonlab.dev -p 2200'
 alias tiny='ssh nickytonline@tiny@ssh.maisonlab.dev -p 2200'
 
@@ -145,10 +152,14 @@ cb() {
   cat "$@" | pbcopy
 }
 
+take() {
+  mkdir -p "$1" && cd "$1"
+}
+
 export GPG_TTY=$(tty 2>/dev/null)
 export STARSHIP_CONFIG=~/.config/starship.toml
 export LESS="-R -F -X -i"
-
+export LESSHISTFILE=-
 
 # Initialize completion system (rebuild cache only once per day)
 autoload -Uz compinit
@@ -160,7 +171,17 @@ fi
 
 # Completion scripts (must come after compinit)
 source <(labctl completion zsh)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 eval "$(fzf --zsh)"
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-dirs-first true
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$HOME/.zsh_cache"
 
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -168,21 +189,11 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
-
-# Lazy load Starship - defers initialization until first prompt
-starship_init() {
-  eval "$(starship init zsh)"
-  precmd_functions=(${precmd_functions:#starship_init})
-}
-precmd_functions+=(starship_init)
-
-# Other shell integrations
-eval "$(atuin init zsh --disable-up-arrow)"
-eval "$(zoxide init zsh)"
-eval "$(mise activate zsh)"
-eval "$(goose term init zsh)"
+# Other shell integrations - idempotent so source ~/.zshrc is safe
+[[ -z "$ATUIN_SESSION" ]] && eval "$(atuin init zsh --disable-up-arrow)"
+(( ! ${+functions[__zoxide_pwd]} )) && eval "$(zoxide init zsh)"
+[[ -z "$MISE_SHELL" ]] && eval "$(mise activate zsh)"
+[[ -z "$STARSHIP_SHELL" ]] && eval "$(starship init zsh)"
 
 
-# Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
+
