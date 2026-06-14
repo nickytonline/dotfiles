@@ -91,11 +91,8 @@ alias zshconfig='code ~/.zshrc'
 alias nr='npm run'
 alias ni='npm i'
 alias '$'=''
-alias dt='deno task'
 alias dotfiles='/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias g='git'
-alias d='deno'
-alias c='cursor -r'
 alias code='code-insiders'
 alias p='pnpm'
 alias pi='pnpm i'
@@ -169,8 +166,11 @@ else
   compinit -C
 fi
 
-# Completion scripts (must come after compinit)
-source <(labctl completion zsh)
+# Cache labctl completion (regenerate only when binary updates)
+if [[ ! -f ~/.zsh_labctl_cache || ~/.zsh_labctl_cache -ot "$HOME/.iximiuz/labctl/bin/labctl" ]]; then
+  "$HOME/.iximiuz/labctl/bin/labctl" completion zsh > ~/.zsh_labctl_cache 2>/dev/null
+fi
+[[ -f ~/.zsh_labctl_cache ]] && source ~/.zsh_labctl_cache
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
