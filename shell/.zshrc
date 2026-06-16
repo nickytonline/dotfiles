@@ -190,10 +190,10 @@ bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
 # Other shell integrations - idempotent so source ~/.zshrc is safe
-[[ -z "$ATUIN_SESSION" ]] && eval "$(atuin init zsh --disable-up-arrow)"
+(( ! ${+functions[_atuin_precmd]} )) && eval "$(atuin init zsh --disable-up-arrow)"
 (( ! ${+functions[__zoxide_pwd]} )) && eval "$(zoxide init zsh)"
-[[ -z "$MISE_SHELL" ]] && eval "$(mise activate zsh)"
-[[ -z "$STARSHIP_SHELL" ]] && eval "$(starship init zsh)"
+(( ! ${+functions[_mise_hook]} )) && eval "$(mise activate zsh)"
+(( ! ${+functions[prompt_starship_precmd]} )) && eval "$(starship init zsh)"
 
 
 
