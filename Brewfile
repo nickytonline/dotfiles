@@ -20,6 +20,8 @@ brew "cfssl"
 brew "cmake"
 # TIFF library and utilities
 brew "libtiff"
+# Embeddable SQL OLAP Database Management System
+brew "duckdb"
 # Key value store for shared configuration and service discovery
 brew "etcd"
 # Modern, maintained replacement for ls
@@ -252,6 +254,8 @@ cask "google-chrome"
 cask "gpg-suite"
 # Desktop automation application
 cask "hammerspoon"
+# Speech to text application
+cask "handy"
 # Free and open-source media player
 cask "iina"
 # Tool to optimise images to a smaller size
@@ -385,3 +389,4 @@ go "golang.org/x/tools/gopls"
 go "honnef.co/go/tools/cmd/staticcheck"
 cargo "oha"
 npm "corepack"
+npm "netlify-cli"
