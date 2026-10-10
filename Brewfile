@@ -1,8 +1,10 @@
 tap "ahmedelgabri/git-wt"
-tap "derailed/k9s"
-tap "duongductrong/snapzy", "https://github.com/duongductrong/Snapzy"
+tap "derailed/k9s", trusted: { formulae: ["k9s"] }
+tap "duongductrong/snapzy", "https://github.com/duongductrong/Snapzy", trusted: true
 tap "libsql/sqld", trusted: { formulae: ["sqld"] }
+tap "microsoft/sysinternalstap"
 tap "oven-sh/bun"
+tap "pomerium/tap"
 tap "siderolabs/tap"
 tap "tursodatabase/tap"
 tap "tw93/tap"
@@ -126,6 +128,7 @@ brew "zoxide"
 brew "ahmedelgabri/git-wt/git-wt", trusted: true
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun", trusted: true
+brew "pomerium/tap/pomerium-cli", trusted: true
 # CLI for out-of-band management of Kubernetes nodes created by Talos
 brew "siderolabs/tap/talosctl", trusted: true
 brew "tursodatabase/tap/turso", trusted: true
@@ -159,8 +162,6 @@ cask "chatgpt"
 cask "claude"
 # Ghostty-based terminal with vertical tabs and notifications for AI coding agents
 cask "cmux"
-# OpenAI's coding agent that runs in your terminal
-cask "codex"
 # OpenAI's Codex desktop app for managing coding agents
 cask "codex-app"
 # Colour contrast checker
@@ -266,12 +267,14 @@ cask "linear"
 cask "logi-options+"
 # Cable-free audio router
 cask "loopback"
+# Multi-platform web browser
+cask "microsoft-edge"
+# Office suite
+cask "microsoft-office"
 # Intercept, modify, replay, save HTTP/S traffic
 cask "mitmproxy"
 # VPN client
 cask "mullvad-vpn"
-# Open-source software for live streaming and screen recording
-cask "obs"
 # Get up and running with large language models locally
 cask "ollama-app"
 # Retro video game emulation
@@ -308,85 +311,26 @@ cask "whatsapp"
 cask "xscope"
 # Video communication and virtual meeting platform
 cask "zoom"
+# Screen zoom, annotation, capture, and recording utility
+cask "microsoft/sysinternalstap/zoomit", trusted: true
 mas "Actions", id: 1586435171
 mas "Dato", id: 1470584107
 mas "Developer", id: 640199958
 mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
+mas "Numbers", id: 361304891
+mas "Prime Video", id: 545519333
 mas "WhatsApp", id: 310633997
-vscode "alefragnani.bookmarks"
-vscode "alefragnani.project-manager"
-vscode "anthropic.claude-code"
-vscode "astro-build.astro-vscode"
-vscode "astro-build.houston"
-vscode "bierner.lit-html"
-vscode "bierner.markdown-preview-github-styles"
-vscode "bmewburn.vscode-intelephense-client"
-vscode "bradlc.vscode-tailwindcss"
-vscode "christian-kohler.path-intellisense"
-vscode "dbaeumer.vscode-eslint"
-vscode "docker.docker"
-vscode "donjayamanne.git-extension-pack"
-vscode "donjayamanne.githistory"
-vscode "eamodio.gitlens"
-vscode "esbenp.prettier-vscode"
-vscode "github.codespaces"
-vscode "github.vscode-github-actions"
-vscode "github.vscode-pull-request-github"
-vscode "golang.go"
-vscode "google.gemini-cli-vscode-ide-companion"
-vscode "hashicorp.terraform"
-vscode "irongeek.vscode-env"
-vscode "jackiotyu.git-worktree-manager"
-vscode "johnpapa.vscode-peacock"
-vscode "llvm-vs-code-extensions.lldb-dap"
-vscode "mattpocock.ts-error-translator"
-vscode "mechatroner.rainbow-csv"
-vscode "mikestead.dotenv"
-vscode "ms-azuretools.vscode-azurefunctions"
-vscode "ms-azuretools.vscode-azureresourcegroups"
-vscode "ms-azuretools.vscode-containers"
-vscode "ms-azuretools.vscode-docker"
-vscode "ms-playwright.playwright"
-vscode "ms-python.debugpy"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-python.vscode-python-envs"
-vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-keymap"
-vscode "ms-toolsai.jupyter-renderers"
-vscode "ms-toolsai.vscode-jupyter-cell-tags"
-vscode "ms-toolsai.vscode-jupyter-slideshow"
-vscode "ms-vscode-remote.remote-containers"
-vscode "ms-vscode-remote.remote-ssh"
-vscode "ms-vscode-remote.remote-ssh-edit"
-vscode "ms-vscode.makefile-tools"
-vscode "ms-vscode.remote-explorer"
-vscode "ms-vscode.remote-server"
-vscode "neotan.vscode-auto-restart-typescript-eslint-servers"
-vscode "oxc.oxc-vscode"
-vscode "redhat.vscode-yaml"
-vscode "ritwickdey.liveserver"
-vscode "ronnidc.nunjucks"
-vscode "rust-lang.rust-analyzer"
-vscode "sanjulaganepola.github-local-actions"
-vscode "sdras.fortnite-vscode-theme"
-vscode "sdras.night-owl"
-vscode "socheatsok78-lab.dotenv-vscode-stripped"
-vscode "sst-dev.opencode"
-vscode "swiftlang.swift-vscode"
-vscode "tamasfe.even-better-toml"
-vscode "unifiedjs.vscode-mdx"
-vscode "usernamehw.errorlens"
-vscode "vadimcn.vscode-lldb"
-vscode "vitest.explorer"
-vscode "voidzero.vite-plus-extension-pack"
-vscode "ziyasal.vscode-open-in-github"
+vscode "anysphere.remote-containers"
+vscode "anysphere.remote-ssh"
 go "github.com/go-delve/delve/cmd/dlv"
 go "cmd/go"
 go "cmd/gofmt"
 go "golang.org/x/tools/gopls"
 go "honnef.co/go/tools/cmd/staticcheck"
 cargo "oha"
+cargo "trippy"
+npm "@only-cli/oc"
+npm "@openai/codex"
 npm "corepack"
 npm "netlify-cli"
